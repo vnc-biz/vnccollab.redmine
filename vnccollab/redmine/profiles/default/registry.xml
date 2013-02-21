@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<registry>
+    <record name="vnccollab.redmine.server_url">
+      <field type="plone.registry.field.URI">
+        <title>Redmine Sever Host URL</title>
+      </field>
+      <value>https://redmine.vnc.biz/redmine</value>
+    </record>
+</registry>

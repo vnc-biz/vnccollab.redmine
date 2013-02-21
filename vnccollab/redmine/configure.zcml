@@ -1,0 +1,25 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    i18n_domain="vnccollab.redmine">
+
+  <include package="five.grok" />
+  <five:registerPackage package="." initialize=".initialize" />
+  <grok:grok package="." />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="vnccollab.redmine"
+      directory="profiles/default"
+      description="Installs the vnccollab.redmine package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <utility
+      provides=".interfaces.IRedmineUtil"
+      component=".util.redmineUtilInstance"/>
+
+</configure>
