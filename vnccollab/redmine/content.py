@@ -22,23 +22,23 @@ class Issue:
 
     def __init__(self, issue, assigned_to=None):
         self.raw = issue
-        self.id = issue.id
-        self.author = issue.author
+        self.id = _coerce(issue, 'id')
+        self.author = _coerce(issue, 'author')
         self.assigned_to = self._assigned_to(issue, assigned_to)
-        self.subject = su(issue.subject)
-        self.description = su(issue.description)
-        self.priority = su(issue.priority)
-        self.status = su(issue.status)
-        self.estimated_hours = float(issue.estimated_hours)
-        self.done_ratio = su(issue.done_ratio)
-        self.start_date = DateTime(issue.start_date)
-        self.due_date = DateTime(issue.due_date)
-        self.created_on = DateTime(issue.created_on)
-        self.updated_on = DateTime(issue.updated_on)
-        self.project = su(issue.project)
-        self.tracker = su(issue.tracker)
-        self.fixed_version = su(issue.fixed_version)
-        self.parent = su(issue.parent)
+        self.subject = _coerce(issue, 'subject', fn=su)
+        self.description = _coerce(issue, 'description', fn=su)
+        self.priority = _coerce(issue, 'priority', fn=su)
+        self.status = _coerce(issue, 'status', fn=su)
+        self.estimated_hours = _coerce(issue, 'estimated_hours', 0, float)
+        self.done_ratio = _coerce(issue, 'done_ratio', fn=su)
+        self.start_date = _coerce(issue, 'start_date', fn=DateTime)
+        self.due_date = _coerce(issue, 'due_date', fn=DateTime)
+        self.created_on = _coerce(issue, 'created_on', fn=DateTime)
+        self.updated_on = _coerce(issue, 'updated_on', fn=DateTime)
+        self.project = _coerce(issue, 'project', fn=su)
+        self.tracker = _coerce(issue, 'tracker', fn=su)
+        self.fixed_version = _coerce(issue, 'fixed_version', fn=su)
+        self.parent = self._parent(issue)
         self.custom_fields = issue.custom_fields
 
     def _assigned_to(self, issue, assigned_to):
@@ -48,3 +48,29 @@ class Issue:
             assigned = issue.assigned_to
 
         return assigned
+
+    def _parent(self, issue):
+        try:
+            parent = issue.parent
+        except:
+            return ''
+
+        if parent is None:
+            return ''
+        else:
+            return parent.id
+
+
+def _coerce(issue, key, default=u'', fn=None):
+    # Issues define all their attributes, some with None
+    val = getattr(issue, key)
+    if val is None:
+        val = default
+
+    if fn is not None:
+        try:
+            val = fn(val)
+        except:
+            val = default
+
+    return val
