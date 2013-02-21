@@ -15,7 +15,7 @@ class RedmineUtil:
     implements(IRedmineUtil)
 
     def _get_server_url(self):
-        url = api.portal.get_registry_record('vnccollab.zimbra.server_url')
+        url = api.portal.get_registry_record('vnccollab.redmine.server_url')
         return url
 
     def _get_credentials(self):
@@ -43,9 +43,14 @@ class RedmineUtil:
         issue = type("Issue", (ActiveResource,), attrs.copy())
         return issue
 
+    def _get_current_issue(self):
+        url = self._get_server_url()
+        username, password = self._get_credentials()
+        return self._get_issue(url, username, password)
+
     def searchIssues(self, **query):
         user = self._get_current_user()
-        issue = self._get_issue()
+        issue = self._get_current_issue()
         result = issue.find(assigned_to_id=user.id, **query)
         result = [Issue(x) for x in result]
         return result
