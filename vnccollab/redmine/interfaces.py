@@ -5,10 +5,13 @@ class IRedmineUtil(Interface):
     '''Interface for Redmine Utility.'''
 
     def searchIssues(**query):
-        ''' '''
+        '''Returns a list of issues that satify the query.'''
 
     def getIssue(id, **query):
-        ''' '''
+        '''Returns an issue given its id.'''
+
+    def getUser(id):
+        '''Returns an user given its id.'''
 
 
 class IReference(Interface):

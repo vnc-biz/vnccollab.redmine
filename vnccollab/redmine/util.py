@@ -91,5 +91,11 @@ class RedmineUtil:
         IssueClass = self._get_my_issue_class()
         return IssueClass.get(id, **args)
 
+    @memoize
+    def getUser(self, id):
+        '''Returns a Redmine user.'''
+        UserClass = self._get_my_user_class()
+        return UserClass.get(id)
+
 
 redmineUtilInstance = RedmineUtil()
