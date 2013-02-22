@@ -7,7 +7,7 @@ from plone.memoize.instance import memoize
 from plone import api
 
 from vnccollab.redmine.interfaces import IRedmineUtil
-from vnccollab.redmine.content import Issue
+from vnccollab.redmine.content import Issue, User
 
 
 class RedmineUtil:
@@ -89,13 +89,17 @@ class RedmineUtil:
                         watchers
         '''
         IssueClass = self._get_my_issue_class()
-        return IssueClass.get(id, **args)
+        issue = IssueClass.get(id, **args)
+        issue = Issue(issue)
+        return issue
 
     @memoize
     def getUser(self, id):
         '''Returns a Redmine user.'''
         UserClass = self._get_my_user_class()
-        return UserClass.get(id)
+        user = UserClass.get(id)
+        user = User(UserClass.get(id))
+        return user
 
 
 redmineUtilInstance = RedmineUtil()
