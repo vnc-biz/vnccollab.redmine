@@ -26,27 +26,33 @@ class RedmineUtil:
         return username, su(password).encode('utf-8')
 
     @memoize
-    def _get_user(self, url, username, password):
+    def _get_user_class(self, url, username, password):
         attrs = {'_site': url, '_user': username, '_password': password}
-        User = type("User", (ActiveResource,), attrs.copy())
-        user = User.find('current')
+        UserClass = type("User", (ActiveResource,), attrs.copy())
+        return UserClass
+        user = UserClass.find('current')
         return user
 
-    def _get_current_user(self):
+    def _get_my_user_class(self):
         url = self._get_server_url()
         username, password = self._get_credentials()
-        return self._get_user(url, username, password)
+        UserClass = self._get_user_class(url, username, password)
+        return UserClass
+
+    def _get_current_user(self):
+        UserClass = self._get_my_user_class()
+        return UserClass.find('current')
 
     @memoize
-    def _get_issue(self, url, username, password):
+    def _get_issue_class(self, url, username, password):
         attrs = {'_site': url, '_user': username, '_password': password}
         IssueClass = type("Issue", (ActiveResource,), attrs.copy())
         return IssueClass
 
-    def _get_current_issue(self):
+    def _get_my_issue_class(self):
         url = self._get_server_url()
         username, password = self._get_credentials()
-        return self._get_issue(url, username, password)
+        return self._get_issue_class(url, username, password)
 
     def searchIssues(self, **query):
         '''Returns a list of issues that satisfy query.
@@ -62,7 +68,7 @@ class RedmineUtil:
                 assigned_to_id:
         '''
         user = self._get_current_user()
-        IssueClass = self._get_current_issue()
+        IssueClass = self._get_my_issue_class()
         result = IssueClass.find(assigned_to_id=user.id, **query)
         result = [Issue(x) for x in result]
         return result
@@ -82,7 +88,7 @@ class RedmineUtil:
                         changeset
                         watchers
         '''
-        IssueClass = self._get_current_issue()
+        IssueClass = self._get_my_issue_class()
         return IssueClass.get(id, **args)
 
 
