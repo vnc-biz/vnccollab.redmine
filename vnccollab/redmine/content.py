@@ -1,9 +1,18 @@
 from DateTime import DateTime
 
 from zope.interface import implements
-from Products.CMFPlone.utils import safe_unicode as su
+from Products.CMFPlone.utils import safe_unicode
 
-from vnccollab.redmine.interfaces import IUser, IIssue
+from vnccollab.redmine.interfaces import IUser, IIssue, IReference, IJournal
+
+
+class Reference:
+    implements(IReference)
+
+    def __init__(self, ref):
+        self.raw = ref
+        self.id = int(getattr(ref, 'id', -1))
+        self.name = _su(ref, 'name')
 
 
 class User:
@@ -11,66 +20,80 @@ class User:
 
     def __init__(self, user):
         self.raw = user
-        self.id = user.id
-        self.firstname = user.firstname
-        self.lastname = user.lastname
-        self.mail = user.mail
+        self.id = _su(user, 'id')
+        self.firstname = _su(user, 'firstname')
+        self.lastname = _su(user, 'lastname')
+        self.mail = _su(user, 'mail')
 
 
-class Issue:
+class BaseRemine:
+    def _reference(self, key):
+        val = getattr(self.raw, key, None)
+
+        if val is not None:
+            val = Reference(val)
+
+        return val
+
+
+class Journal(BaseRemine):
+    implements(IJournal)
+
+    def __init__(self, journal):
+        self.raw = journal
+        self.id = _su(journal, 'id')
+        self.user = self._reference('user')
+        self.notes = _su(journal, 'notes')
+        self.created_on = _date(journal, 'created_on')
+
+
+class Issue(BaseRemine):
     implements(IIssue)
 
     def __init__(self, issue, assigned_to=None):
         self.raw = issue
-        self.id = _coerce(issue, 'id')
-        self.author = _coerce(issue, 'author')
-        self.assigned_to = self._assigned_to(issue, assigned_to)
-        self.subject = _coerce(issue, 'subject', fn=su)
-        self.description = _coerce(issue, 'description', fn=su)
-        self.priority = _coerce(issue, 'priority', fn=su)
-        self.status = _coerce(issue, 'status', fn=su)
-        self.estimated_hours = _coerce(issue, 'estimated_hours', 0, float)
-        self.done_ratio = _coerce(issue, 'done_ratio', fn=su)
-        self.start_date = _coerce(issue, 'start_date', fn=DateTime)
-        self.due_date = _coerce(issue, 'due_date', fn=DateTime)
-        self.created_on = _coerce(issue, 'created_on', fn=DateTime)
-        self.updated_on = _coerce(issue, 'updated_on', fn=DateTime)
-        self.project = _coerce(issue, 'project', fn=su)
-        self.tracker = _coerce(issue, 'tracker', fn=su)
-        self.fixed_version = _coerce(issue, 'fixed_version', fn=su)
-        self.parent = self._parent(issue)
-        self.custom_fields = issue.custom_fields
+        self.id = _su(issue, 'id')
+        self.project = self._reference('project')
+        self.tracker = self._reference('tracker')
+        self.author = Reference(issue.author)
+        self.status = self._reference('status')
+        self.assigned_to = self._reference('assigned_to')
+        self.priority = self._reference('priority')
+        self.parent = self._reference('parent')
+        self.subject = _su(issue, 'subject')
+        self.description = _su(issue, 'description')
+        self.estimated_hours = _float(issue, 'estimated_hours', -1)
+        self.done_ratio = _float(issue, 'done_ratio', 0)
+        self.start_date = _date(issue, 'start_date')
+        self.due_date = _date(issue, 'due_date')
+        self.created_on = _date(issue, 'created_on')
+        self.updated_on = _date(issue, 'updated_on')
+        self.fixed_version = _su(issue, 'fixed_version')
+        self.journals = self._journals(issue)
 
-    def _assigned_to(self, issue, assigned_to):
-        if assigned_to:
-            assigned = assigned_to
-        else:
-            assigned = issue.assigned_to
-
-        return assigned
-
-    def _parent(self, issue):
-        try:
-            parent = issue.parent
-        except:
-            return ''
-
-        if parent is None:
-            return ''
-        else:
-            return parent.id
+    def _journals(self, issue):
+        journals = getattr(issue, 'journals', [])
+        journals = [Journal(x) for x in journals]
+        return journals
 
 
-def _coerce(issue, key, default=u'', fn=None):
-    # Issues define all their attributes, some with None
-    val = getattr(issue, key)
+def _su(item, key):
+    return safe_unicode(getattr(item, key, u''))
+
+
+def _float(item, key, default):
+    val = getattr(item, key, default)
+
     if val is None:
         val = default
 
-    if fn is not None:
-        try:
-            val = fn(val)
-        except:
-            val = default
+    return float(val)
 
-    return val
+
+def _date(item, key):
+    date = getattr(item, key, None)
+
+    if date is not None:
+        date = DateTime(date)
+
+    return date

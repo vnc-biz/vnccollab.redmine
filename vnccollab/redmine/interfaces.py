@@ -11,12 +11,23 @@ class IRedmineUtil(Interface):
         ''' '''
 
 
+class IReference(Interface):
+    id = Attribute('')
+    name = Attribute('')
+
 
 class IUser(Interface):
     id = Attribute('')
     firstname = Attribute('')
     lastname = Attribute('')
     mail = Attribute('')
+
+
+class IJournal(Interface):
+    id = Attribute('')
+    user = Attribute('')
+    notes = Attribute('')
+    created_on = Attribute('')
 
 
 class IIssue(Interface):
@@ -37,4 +48,4 @@ class IIssue(Interface):
     tracker = Attribute('')
     fixed_version = Attribute('')
     parent = Attribute('')
-    custom_fields = Attribute('')
+    journals = Attribute('')
