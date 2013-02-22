@@ -6,29 +6,42 @@ from Products.CMFPlone.utils import safe_unicode
 from vnccollab.redmine.interfaces import IUser, IIssue, IReference, IJournal
 
 
-class Reference:
-    implements(IReference)
-
-    def __init__(self, ref):
-        self.raw = ref
-        self.id = int(getattr(ref, 'id', -1))
-        self.name = _su(ref, 'name')
-
-
-class User:
-    implements(IUser)
-
-    def __init__(self, user):
-        self.raw = user
-        self.id = _su(user, 'id')
-        self.firstname = _su(user, 'firstname')
-        self.lastname = _su(user, 'lastname')
-        self.mail = _su(user, 'mail')
-
-
 class BaseRemine:
+    def __init__(self, raw):
+        self.raw = raw
+        self.raw_is_dict = isinstance(raw, dict)
+        self.id = self._su('id')
+
+    def _getattr(self, key, default=u''):
+        '''The raw object could be an object or a dict.'''
+        if self.raw_is_dict:
+            val = self.raw.get(key, default)
+        else:
+            val = getattr(self.raw, key, default)
+
+        return val
+
+    def _su(self, key):
+        return safe_unicode(self._getattr(key, u''))
+
+    def _float(self, key, default):
+        val = self._getattr(key, default)
+
+        if val is None:
+            val = default
+
+        return float(val)
+
+    def _date(self, key):
+        date = self._getattr(key, None)
+
+        if date is not None:
+            date = DateTime(date)
+
+        return date
+
     def _reference(self, key):
-        val = getattr(self.raw, key, None)
+        val = self._getattr(key, None)
 
         if val is not None:
             val = Reference(val)
@@ -36,64 +49,58 @@ class BaseRemine:
         return val
 
 
+class Reference(BaseRemine):
+    implements(IReference)
+
+    def __init__(self, ref):
+        BaseRemine.__init__(self, ref)
+        self.name = self._su('name')
+
+
+class User(BaseRemine):
+    implements(IUser)
+
+    def __init__(self, user):
+        BaseRemine.__init__(self, user)
+        self.firstname = self._su('firstname')
+        self.lastname = self._su('lastname')
+        self.mail = self._su('mail')
+
+
 class Journal(BaseRemine):
     implements(IJournal)
 
     def __init__(self, journal):
-        self.raw = journal
-        self.id = _su(journal, 'id')
+        BaseRemine.__init__(self, journal)
         self.user = self._reference('user')
-        self.notes = _su(journal, 'notes')
-        self.created_on = _date(journal, 'created_on')
+        self.notes = self._su('notes')
+        self.created_on = self._date('created_on')
 
 
 class Issue(BaseRemine):
     implements(IIssue)
 
-    def __init__(self, issue, assigned_to=None):
-        self.raw = issue
-        self.id = _su(issue, 'id')
+    def __init__(self, issue):
+        BaseRemine.__init__(self, issue)
         self.project = self._reference('project')
         self.tracker = self._reference('tracker')
-        self.author = Reference(issue.author)
+        self.author = self._reference('author')
         self.status = self._reference('status')
         self.assigned_to = self._reference('assigned_to')
         self.priority = self._reference('priority')
         self.parent = self._reference('parent')
-        self.subject = _su(issue, 'subject')
-        self.description = _su(issue, 'description')
-        self.estimated_hours = _float(issue, 'estimated_hours', -1)
-        self.done_ratio = _float(issue, 'done_ratio', 0)
-        self.start_date = _date(issue, 'start_date')
-        self.due_date = _date(issue, 'due_date')
-        self.created_on = _date(issue, 'created_on')
-        self.updated_on = _date(issue, 'updated_on')
-        self.fixed_version = _su(issue, 'fixed_version')
+        self.subject = self._su('subject')
+        self.description = self._su('description')
+        self.estimated_hours = self._float('estimated_hours', -1)
+        self.done_ratio = self._float('done_ratio', 0)
+        self.start_date = self._date('start_date')
+        self.due_date = self._date('due_date')
+        self.created_on = self._date('created_on')
+        self.updated_on = self._date('updated_on')
+        self.fixed_version = self._su('fixed_version')
         self.journals = self._journals(issue)
 
     def _journals(self, issue):
-        journals = getattr(issue, 'journals', [])
+        journals = self._getattr('journals', [])
         journals = [Journal(x) for x in journals]
         return journals
-
-
-def _su(item, key):
-    return safe_unicode(getattr(item, key, u''))
-
-
-def _float(item, key, default):
-    val = getattr(item, key, default)
-
-    if val is None:
-        val = default
-
-    return float(val)
-
-
-def _date(item, key):
-    date = getattr(item, key, None)
-
-    if date is not None:
-        date = DateTime(date)
-
-    return date
