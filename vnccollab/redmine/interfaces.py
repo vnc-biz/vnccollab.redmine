@@ -7,6 +7,10 @@ class IRedmineUtil(Interface):
     def searchIssues(**query):
         ''' '''
 
+    def getIssue(id, **query):
+        ''' '''
+
+
 
 class IUser(Interface):
     id = Attribute('')
