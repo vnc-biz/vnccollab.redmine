@@ -5,7 +5,18 @@ class IRedmineUtil(Interface):
     '''Interface for Redmine Utility.'''
 
     def searchIssues(**query):
-        ''' '''
+        '''Returns a list of issues that satify the query.'''
+
+    def getIssue(id, **query):
+        '''Returns an issue given its id.'''
+
+    def getUser(id):
+        '''Returns an user given its id.'''
+
+
+class IReference(Interface):
+    id = Attribute('')
+    name = Attribute('')
 
 
 class IUser(Interface):
@@ -13,6 +24,13 @@ class IUser(Interface):
     firstname = Attribute('')
     lastname = Attribute('')
     mail = Attribute('')
+
+
+class IJournal(Interface):
+    id = Attribute('')
+    user = Attribute('')
+    notes = Attribute('')
+    created_on = Attribute('')
 
 
 class IIssue(Interface):
@@ -33,4 +51,4 @@ class IIssue(Interface):
     tracker = Attribute('')
     fixed_version = Attribute('')
     parent = Attribute('')
-    custom_fields = Attribute('')
+    journals = Attribute('')
