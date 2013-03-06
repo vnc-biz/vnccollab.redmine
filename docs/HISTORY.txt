@@ -1,8 +1,11 @@
 Changelog
 =========
 
-1.0 (unreleased)
+1.0 - Unreleased
 ----------------
+
+- Added basic utilities to work with redmine.
+  [Jose Dinuncio]
 
 - Package created using templer
   [Jose Dinuncio]
