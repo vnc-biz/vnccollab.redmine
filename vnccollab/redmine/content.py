@@ -73,7 +73,7 @@ class Journal(BaseRemine):
     def __init__(self, journal):
         BaseRemine.__init__(self, journal)
         self.user = self._reference('user')
-        self.notes = self._su('notes')
+        self.notes = self._su('notes') or u''
         self.created_on = self._date('created_on')
 
 
