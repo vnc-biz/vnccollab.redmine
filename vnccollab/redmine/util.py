@@ -66,6 +66,16 @@ class RedmineUtil:
                 subproject_id:
                 tracker_id:
                 assigned_to_id:
+                status_id:
+                created_on_XXX:
+                updated_on_XXX:
+                start_date_XXX:
+                due_date_XXX:
+                    XXX: is 'before' | 'after | 'between'
+                subject_words:
+                description_words:
+                journal_words:
+                search_words:
         '''
         user = self._get_current_user()
         IssueClass = self._get_my_issue_class()
