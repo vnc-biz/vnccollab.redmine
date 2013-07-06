@@ -10,6 +10,7 @@
   <five:registerPackage package="." initialize=".initialize" />
   <grok:grok package="." />
 
+  <include package=".upgrades" />
   <include package=".portlets" />
 
   <genericsetup:registerProfile
