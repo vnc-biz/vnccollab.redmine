@@ -10,6 +10,8 @@
   <five:registerPackage package="." initialize=".initialize" />
   <grok:grok package="." />
 
+  <include package=".portlets" />
+
   <genericsetup:registerProfile
       name="default"
       title="vnccollab.redmine"
