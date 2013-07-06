@@ -1,3 +1,5 @@
+import sys
+
 from pyactiveresource.activeresource import ActiveResource
 
 from zope.interface import implements
@@ -113,3 +115,11 @@ class RedmineUtil:
 
 
 redmineUtilInstance = RedmineUtil()
+
+
+def logException(logger, msg, context=None):
+    logger.exception(msg)
+    if context is not None:
+        error_log = getattr(context, 'error_log', None)
+        if error_log is not None:
+            error_log.raising(sys.exc_info())
