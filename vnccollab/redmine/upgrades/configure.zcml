@@ -11,7 +11,7 @@
 
         <genericsetup:upgradeDepends
            title="Add New Portlets and Member Data Properties"
-           import_steps="portlets memberdata-properties viewlets browserlayer"
+           import_steps="portlets memberdata-properties viewlets browserlayer plone.app.registry"
           />
     </genericsetup:upgradeSteps>
 

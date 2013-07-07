@@ -32,7 +32,7 @@ class RelatedRedmineTicketsViewlet(common.ViewletBase):
         # check user redmine credentials and redmine url/field id
         registry = getUtility(IRegistry)
         url = registry.get('vnccollab.theme.redmine.url')
-        field_id = registry.get('vnccollab.theme.redmine.plone_uid_field_id')
+        field_id = registry.get('vnccollab.redmine.plone_uid_field_id')
         username, password = self.getAuthCredentials()
         if username and password and url and field_id:
             Issue = type("Issue", (ActiveResource,), {'_site': url, '_user':
