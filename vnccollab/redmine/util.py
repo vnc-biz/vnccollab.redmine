@@ -80,11 +80,17 @@ class RedmineUtil:
                 journal_words:
                 search_words:
         '''
-        user = self._get_current_user()
         IssueClass = self._get_my_issue_class()
-        result = IssueClass.find(assigned_to_id=user.id, **query)
+        result = IssueClass.find(**query)
         result = [Issue(x) for x in result]
         return result
+
+    def searchMyIssues(self, **query):
+        '''Returns a list of issues for the current user that satify the
+        query.'''
+        user = self._get_current_user()
+        query['assinged_to_id'] = user.id
+        return self.searchIssues(**query)
 
     def getIssue(self, id, **args):
         '''Gets the issue identified by id.

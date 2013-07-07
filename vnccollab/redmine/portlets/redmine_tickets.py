@@ -71,7 +71,7 @@ class Renderer(deferred.DeferredRenderer):
     def getTickets(self):
         """Returns list of opened issues for authenticated user"""
         try:
-            tickets = util.searchIssues(status_id='o', sort='updated_on:desc')
+            tickets = util.searchMyIssues(status_id='o', sort='updated_on:desc')
         except:
             logException(msg=_(u"Error during fetching redmine tickets %s" %
                                util._get_server_url),
