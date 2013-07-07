@@ -1,6 +1,10 @@
 from zope.interface import Interface, Attribute
 
 
+class IAddOnInstalled(Interface):
+    '''Layer specific intrface for this add-on.'''
+
+
 class IRedmineUtil(Interface):
     '''Interface for Redmine Utility.'''
 

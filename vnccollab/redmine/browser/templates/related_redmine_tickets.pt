@@ -1,0 +1,19 @@
+<div class="relatedRedmineTickets"
+     i18n:domain="vnccollab.redmine"
+     tal:define="related view/tickets"
+     tal:condition="related">
+    <div class="visualClear" id="clear-space-before-relatedTicketBox"><!-- --></div>
+    <dl id="relatedTicketBox">
+        <dt i18n:translate="label_related_tickets">Related Redmine Tickets</dt>
+        <dd>
+          <li tal:repeat="item related">
+            <a href="" class="" target="_blank"
+               tal:attributes="href  item/url;
+                               title item/body">
+              Ticket #<tal:id replace="item/id" />:
+              <tal:title content="item/title" />
+            </a>
+          </li>
+        </dd>
+    </dl>
+</div>
