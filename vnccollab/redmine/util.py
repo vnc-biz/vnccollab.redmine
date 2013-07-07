@@ -16,6 +16,7 @@ class RedmineUtil:
     '''Redmine Utility.'''
     implements(IRedmineUtil)
 
+    @memoize
     def _get_server_url(self):
         url = api.portal.get_registry_record('vnccollab.redmine.server_url')
         return url
