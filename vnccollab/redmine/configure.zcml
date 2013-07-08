@@ -26,4 +26,11 @@
       provides=".interfaces.IRedmineUtil"
       component=".util.redmineUtilInstance"/>
 
+  <!-- Extra properties for User Data Schema -->
+  <adapter factory=".userdataschema.UserDataSchemaAdapter"
+           name="redmine_userdatascheme.ExtraField"/>
+
+  <adapter factory=".userdataschema.UserDataSchemaPropertiesAdapter"
+           name="redmine_userdatascheme.ExtraProperties"/>
+
 </configure>

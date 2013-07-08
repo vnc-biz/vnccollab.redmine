@@ -26,6 +26,7 @@ setup(name='vnccollab.redmine',
           'pyactiveresource',
           'five.grok',
           'plone.api',
+          'collective.customizablePersonalizeForm',
       ],
       entry_points="""
       # -*- Entry points: -*-
