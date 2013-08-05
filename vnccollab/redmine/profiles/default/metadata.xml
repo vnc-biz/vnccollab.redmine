@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-plone.app.registry:default</dependency>
     <dependency>profile-collective.customizablePersonalizeForm:default</dependency>
+    <dependency>profile-vnccollab.common:default</dependency>
   </dependencies>
 </metadata>

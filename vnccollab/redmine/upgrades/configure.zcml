@@ -15,4 +15,13 @@
           />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:upgradeStep
+        source="1000"
+        destination="1001"
+        sortkey="2"
+        profile="vnccollab.redmine:default"
+        title="Installs vnccollab.common"
+        handler="vnccollab.redmine.upgrades.upgrades.upgrade_1000_1001"
+        />
+
 </configure>
