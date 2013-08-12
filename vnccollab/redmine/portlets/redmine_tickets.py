@@ -13,7 +13,7 @@ from plone.app.portlets.portlets import base
 
 from vnccollab.redmine import messageFactory as _
 from vnccollab.redmine.util import RedmineUtil, logException
-from vnccollab.redmine.portlets import deferred
+from vnccollab.common.portlets import deferred
 
 
 logger = logging.getLogger('vnccollab.redmine.RedmineTicketsPortlet')
