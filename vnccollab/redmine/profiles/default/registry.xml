@@ -4,6 +4,6 @@
       <field type="plone.registry.field.URI">
         <title>Redmine Sever Host URL</title>
       </field>
-      <value>https://redmine.vnc.biz/redmine</value>
+      <value>https://redmine.vnc.biz/</value>
     </record>
 </registry>
