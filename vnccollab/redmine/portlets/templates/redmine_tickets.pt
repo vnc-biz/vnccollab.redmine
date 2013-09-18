@@ -7,6 +7,7 @@
                     portlet-name    view/metadata/name;
                     portlet-key     view/metadata/key;"
     i18n:domain="vnccollab.redmine" >
+    <!-- new redmine tickets portlet -->
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
         <a href="#"
