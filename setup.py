@@ -7,11 +7,11 @@ setup(name='vnccollab.redmine',
       version=version,
       description="VNC Collaboration Redmine AddOn.",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+          open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        ],
+          "Framework :: Plone",
+          "Programming Language :: Python",
+      ],
       keywords='',
       author='',
       author_email='',
@@ -26,6 +26,8 @@ setup(name='vnccollab.redmine',
           'pyactiveresource',
           'five.grok',
           'plone.api',
+          'collective.customizablePersonalizeForm',
+          'vnccollab.common'
       ],
       entry_points="""
       # -*- Entry points: -*-

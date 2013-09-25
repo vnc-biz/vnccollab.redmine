@@ -1,3 +1,5 @@
+import sys
+
 from pyactiveresource.activeresource import ActiveResource
 
 from zope.interface import implements
@@ -14,6 +16,7 @@ class RedmineUtil:
     '''Redmine Utility.'''
     implements(IRedmineUtil)
 
+    @memoize
     def _get_server_url(self):
         url = api.portal.get_registry_record('vnccollab.redmine.server_url')
         return url
@@ -77,11 +80,17 @@ class RedmineUtil:
                 journal_words:
                 search_words:
         '''
-        user = self._get_current_user()
         IssueClass = self._get_my_issue_class()
-        result = IssueClass.find(assigned_to_id=user.id, **query)
+        result = IssueClass.find(**query)
         result = [Issue(x) for x in result]
         return result
+
+    def searchMyIssues(self, **query):
+        '''Returns a list of issues for the current user that satify the
+        query.'''
+        user = self._get_current_user()
+        query['assinged_to_id'] = user.id
+        return self.searchIssues(**query)
 
     def getIssue(self, id, **args):
         '''Gets the issue identified by id.
@@ -113,3 +122,11 @@ class RedmineUtil:
 
 
 redmineUtilInstance = RedmineUtil()
+
+
+def logException(logger, msg, context=None):
+    logger.exception(msg)
+    if context is not None:
+        error_log = getattr(context, 'error_log', None)
+        if error_log is not None:
+            error_log.raising(sys.exc_info())

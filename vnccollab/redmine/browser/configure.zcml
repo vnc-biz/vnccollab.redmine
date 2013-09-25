@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="vnccollab.redmine">
+
+  <!-- Viewlets registration -->
+  <browser:viewlet
+      name="vnccollab.redmine.related_redmine_tickets"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+      class=".viewlets.RelatedRedmineTicketsViewlet"
+      template="templates/related_redmine_tickets.pt"
+      view="plone.app.layout.globals.interfaces.IViewView"
+      layer="vnccollab.redmine.interfaces.IAddOnInstalled"
+      permission="zope2.View"
+      />
+
+</configure>

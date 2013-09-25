@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <registry>
-    <record name="vnccollab.redmine.server_url">
-      <field type="plone.registry.field.URI">
-        <title>Redmine Sever Host URL</title>
-      </field>
-      <value>https://redmine.vnc.biz/</value>
-    </record>
+  <record name="vnccollab.redmine.server_url">
+    <field type="plone.registry.field.URI">
+      <title>Redmine Sever Host URL</title>
+    </field>
+    <value>https://redmine.vnc.biz/redmine</value>
+  </record>
+  <record name="vnccollab.redmine.plone_uid_field_id">
+    <field type="plone.registry.field.Int">
+      <title>Redmine Custom Field Id for Plone UID</title>
+    </field>
+    <value purge="false">15</value>
+  </record>
 </registry>

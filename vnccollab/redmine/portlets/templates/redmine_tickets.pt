@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:omit-tag="">
+<dl class="portlet portlet-deferred portletRedmineTickets"
+    tal:attributes="portlet-manager view/metadata/manager;
+                    portlet-name    view/metadata/name;
+                    portlet-key     view/metadata/key;"
+    i18n:domain="vnccollab.redmine" >
+    <!-- new redmine tickets portlet -->
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <a href="#"
+           class="tile"
+           target="_blank"
+           tal:attributes="href string:${view/getTicketsURL}"
+           tal:content="view/data/header"
+           i18n:translate="">Redmine Tickets</a>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletBodyWrapper">
+      <div class="portletLoading"
+           tal:condition="view/initializing">
+          <img tal:attributes="src string:${context/portal_url}/spinner.gif" alt="" />
+      </div>
+
+      <ul class="portletBody noSlimScroll"
+          tal:condition="not:view/initializing">
+        <tal:items tal:repeat="elem view/getTickets">
+        <li class="portletItem"
+            tal:define="oddrow repeat/elem/odd"
+             tal:attributes="class python:oddrow and 'portletItem even' or 'portletItem odd'">
+            <a href=""
+               class="tile"
+               target="_blank"
+               tal:attributes="href elem/url;
+                               title elem/title">
+                <strong tal:content="elem/title">Ticket 1</strong>
+            </a>
+            <div class="portletItemBody"
+                 tal:condition="elem/body"
+                 tal:content="structure elem/body">
+              Ticket Description
+            </div>
+            <div class="portletItemDate"
+                 tal:condition="elem/date">
+              <strong>Last Updated:</strong>
+              <tal:date content="elem/date" /></div>
+        </li>
+        </tal:items>
+      </ul>
+    </dd>
+
+    <dd class="portletFooter" style="visibility:hidden">
+        <span class="portletBottomLeft"></span>
+        <a href="#"
+           title="Check all issues"
+           target="_blank"
+           tal:attributes="href string:${view/getTicketsURL}"
+           i18n:attributes="title"
+           i18n:translate="">All tickets&hellip;</a>
+        <span class="portletBottomRight"></span>
+    </dd>
+</dl>
+</html>
