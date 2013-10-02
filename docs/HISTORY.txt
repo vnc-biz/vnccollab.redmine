@@ -4,6 +4,10 @@ Changelog
 1.0.2 - Unreleased
 ------------------
 
+- Fixes license and adds AUTHORS.txt.
+  [Jose Dinuncio]
+
+
 - Update redmine url.
   [Vitaliy Podoba]
 
