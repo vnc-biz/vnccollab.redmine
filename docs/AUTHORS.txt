@@ -1,0 +1,8 @@
+This software has been written by:
+
+    Vitaliy Podova (Віталій Подоба), vitaliy.podova@vnc.biz, lead developer.
+    José Dinuncio, jose.dinuncio@vnc.biz.
+    César González, cesar.gonzalez@vnc.biz.
+    Marcin Staniszczak, marcin.staniszczak@vnc.biz.
+
+We hope it'll be usefull for you. Enjoy it.

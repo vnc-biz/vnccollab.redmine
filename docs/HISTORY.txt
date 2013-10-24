@@ -1,6 +1,17 @@
 Changelog
 =========
 
+1.0.2 - October 24, 2013
+------------------------
+
+- Fixes license and adds AUTHORS.txt.
+  [Jose Dinuncio]
+
+
+- Update redmine url.
+  [Vitaliy Podoba]
+
+
 1.0.1 - March 20, 2013
 ----------------------
 

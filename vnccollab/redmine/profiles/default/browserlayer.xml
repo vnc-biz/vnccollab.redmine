@@ -1,0 +1,5 @@
+<layers>
+    <layer name="vnccollab.redmine"
+           interface="vnccollab.redmine.interfaces.IAddOnInstalled"
+           />
+</layers>

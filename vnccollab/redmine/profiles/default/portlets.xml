@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<portlets
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="vnccollab.redmine">
+
+ <portlet
+   addview="vnccollab.redmine.portlets.RedmineTicketsPortlet"
+   title="Redmine: Tickets"
+   description="Renders list of opened Redmine Tickets for authenticated user."
+   i18n:attributes="title;description">
+   <for interface="plone.app.portlets.interfaces.IColumn" />
+   <for interface="plone.app.portlets.interfaces.IDashboard" />
+ </portlet>
+
+
+</portlets>

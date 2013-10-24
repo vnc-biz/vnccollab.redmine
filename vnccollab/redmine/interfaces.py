@@ -1,11 +1,19 @@
 from zope.interface import Interface, Attribute
 
 
+class IAddOnInstalled(Interface):
+    '''Layer specific intrface for this add-on.'''
+
+
 class IRedmineUtil(Interface):
     '''Interface for Redmine Utility.'''
 
     def searchIssues(**query):
         '''Returns a list of issues that satify the query.'''
+
+    def searchMyIssues(**query):
+        '''Returns a list of issues for the current user that satify the
+        query.'''
 
     def getIssue(id, **query):
         '''Returns an issue given its id.'''
