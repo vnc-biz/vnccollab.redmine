@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0.3 - November 20, 2013
+-------------------------
+
+- Includes collective.customizablePersonalizeForm into configure.zcml
+  [Jose Dinuncio]
+
 1.0.2 - October 24, 2013
 ------------------------
 
