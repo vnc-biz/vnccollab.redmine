@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.3'
+version = open('version.txt').read()
 
 setup(name='vnccollab.redmine',
       version=version,
