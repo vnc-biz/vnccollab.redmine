@@ -23,6 +23,7 @@ setup(name='vnccollab.redmine',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'textile',
           'pyactiveresource',
           'five.grok',
           'plone.api',
