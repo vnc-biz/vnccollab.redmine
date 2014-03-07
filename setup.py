@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.3'
+version = open('version.txt').read()
 
 setup(name='vnccollab.redmine',
       version=version,
@@ -23,6 +23,7 @@ setup(name='vnccollab.redmine',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'textile',
           'pyactiveresource',
           'five.grok',
           'plone.api',
