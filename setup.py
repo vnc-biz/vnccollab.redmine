@@ -32,6 +32,7 @@ setup(name='vnccollab.redmine',
           'collective.customizablePersonalizeForm',
           'vnccollab.common'
       ],
+      extras_require={'test': ['plone.app.testing']},
       entry_points="""
       # -*- Entry points: -*-
 
