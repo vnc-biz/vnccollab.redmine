@@ -6,7 +6,7 @@ from vnccollab.redmine.testing import \
     VNCCOLLAB_REDMINE_INTEGRATION_TESTING
 
 
-class TestExample(unittest.TestCase):
+class TestInstallation(unittest.TestCase):
 
     layer = VNCCOLLAB_REDMINE_INTEGRATION_TESTING
 
