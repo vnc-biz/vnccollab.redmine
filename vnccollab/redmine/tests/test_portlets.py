@@ -16,6 +16,7 @@ from plone.portlets.interfaces import IPortletDataProvider
 from plone.portlets.interfaces import IPortletRenderer
 
 from vnccollab.redmine.tests.base import FunctionalTestCase
+from vnccollab.redmine.tests._mock import initialize as initialize_mock
 from vnccollab.redmine.portlets import redmine_tickets
 
 
@@ -68,6 +69,7 @@ class PortletTest(FunctionalTestCase):
         self.failUnless(isinstance(editview, redmine_tickets.EditForm))
 
     def test_Renderer(self):
+        initialize_mock()
         context = self.portal
         request = self.portal.REQUEST
         view = self.portal.restrictedTraverse('@@plone')
@@ -75,6 +77,15 @@ class PortletTest(FunctionalTestCase):
         assignment = redmine_tickets.Assignment()
 
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
-        #print renderer.refresh()
-        #print renderer.getTickets()
         self.failUnless(isinstance(renderer, redmine_tickets.Renderer))
+
+        renderer.refresh()
+        tickets = renderer.getTickets()
+
+        self.assertTrue(len(tickets) == 2)
+        for ticket in tickets:
+            self.assertTrue(ticket['body'] in (u'\t<p>some description 1</p>', u'\t<p>some description 2</p>'))
+            self.assertTrue(ticket['title'] in (u'Some subject 1', u'Some subject 2'))
+
+        self.assertEquals(renderer.getTicketsURL(), 'https://redmine.vnc.biz/redmine/issues')
+        self.assertEqual(renderer.title, '')

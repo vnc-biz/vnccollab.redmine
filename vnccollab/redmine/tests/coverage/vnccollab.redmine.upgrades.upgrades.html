@@ -1,0 +1,43 @@
+
+    <html>
+      <head><title>Test coverage for vnccollab.redmine.upgrades.upgrades</title>
+      <style type="text/css">
+        a {text-decoration: none; display: block; padding-right: 1em;}
+        a:hover {background: #EFA;}
+        hr {height: 1px; border: none; border-top: 1px solid gray;}
+        .notcovered {background: #FCC;}
+        .footer {margin: 2em; font-size: small; color: gray;}
+      </style>
+      </head>
+      <body><h1>Test coverage for vnccollab.redmine.upgrades.upgrades</h1>
+      <table>
+    
+<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.upgrades.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upgrades/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 34% (45 of 69 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.upgrades.upgrades.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upgrades.py</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (3 of 10 uncovered)</td></tr>
+</table><hr/>
+<pre>       #from Products.CMFCore.utils import getToolByName
+    1: from plone.app.upgrade.utils import installOrReinstallProduct
+    1: from plone import api
+       
+    1: from vnccollab.redmine.config import PROJECTNAME
+    1: from vnccollab.redmine.upgrades.replaceportlets import replace_all_portlets
+       
+       
+    1: DEFAULT_PROFILE = 'profile-%s:default' % PROJECTNAME
+       
+       
+    1: def upgrade_1000_1001(context):
+           '''Installs vnccollab.common.'''
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;     portal = api.portal.get()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;     installOrReinstallProduct(portal, 'vnccollab.common')</div>       
+       
+    1: def upgrade_1000_1001_replace_portlets(context):
+           '''Replace Theme portlets.'''
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;     replace_all_portlets()</div></pre>
+
+      <div class="footer">
+      Generated for revision Niewersjonowany katalog on 2014-03-19 23:58:19.289888Z
+      </div>
+    </body>
+    </html>
