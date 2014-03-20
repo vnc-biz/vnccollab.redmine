@@ -5,7 +5,7 @@
 ------------------
 
 - Adds tests [10657]
-  [Jose Dinuncio]
+  [Jose Dinuncio, Marcin Staniszczak]
 
 - Cleans code for OS release [16010]
   [Jose Dinuncio]
