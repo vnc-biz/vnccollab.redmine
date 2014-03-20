@@ -12,9 +12,9 @@
       <body><h1>Test coverage for vnccollab.redmine.content</h1>
       <table>
     
-<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.content.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content.py</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (13 of 75 uncovered)</td></tr>
+<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (87 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (87 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.content.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content.py</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 88% (9 of 75 uncovered)</td></tr>
 </table><hr/>
 <pre>    1: from DateTime import DateTime
        
@@ -26,42 +26,42 @@
        
     2: class BaseRemine:
     1:     def __init__(self, raw):
-    4:         self.raw = raw
-    4:         self.raw_is_dict = isinstance(raw, dict)
-    4:         self.id = self._su('id')
+    8:         self.raw = raw
+    8:         self.raw_is_dict = isinstance(raw, dict)
+    8:         self.id = self._su('id')
        
     1:     def _getattr(self, key, default=u''):
                '''The raw object could be an object or a dict.'''
-   72:         if self.raw_is_dict:
-   72:             val = self.raw.get(key, default)
-               else:
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             val = getattr(self.raw, key, default)</div>       
-   72:         return val
+  130:         if self.raw_is_dict:
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             val = self.raw.get(key, default)</div>               else:
+  130:             val = getattr(self.raw, key, default)
+       
+  130:         return val
        
     1:     def _su(self, key):
-   16:         return safe_unicode(self._getattr(key, u''))
+   32:         return safe_unicode(self._getattr(key, u''))
        
     1:     def _float(self, key, default):
-    8:         val = self._getattr(key, default)
+   14:         val = self._getattr(key, default)
        
-    8:         if val is None:
+   14:         if val is None:
 <div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             val = default</div>       
-    8:         return float(val)
+   14:         return float(val)
        
     1:     def _date(self, key):
-   16:         date = self._getattr(key, None)
+   28:         date = self._getattr(key, None)
        
-   16:         if date is not None:
-   12:             date = DateTime(date)
+   28:         if date is not None:
+   21:             date = DateTime(date)
        
-   16:         return date
+   28:         return date
        
     1:     def _reference(self, key):
-   28:         val = self._getattr(key, None)
+   49:         val = self._getattr(key, None)
        
-   28:         if val is not None:
+   49:         if val is not None:
 <div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             val = Reference(val)</div>       
-   28:         return val
+   49:         return val
        
        
     2: class Reference(BaseRemine):
@@ -74,7 +74,11 @@
     1:     implements(IUser)
        
     1:     def __init__(self, user):
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         BaseRemine.__init__(self, user)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         self.firstname = self._su('firstname')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         self.lastname = self._su('lastname')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         self.mail = self._su('mail')</div>       
+    1:         BaseRemine.__init__(self, user)
+    1:         self.firstname = self._su('firstname')
+    1:         self.lastname = self._su('lastname')
+    1:         self.mail = self._su('mail')
+       
        
     2: class Journal(BaseRemine):
     1:     implements(IJournal)
@@ -86,33 +90,33 @@
     1:     implements(IIssue)
        
     1:     def __init__(self, issue):
-    4:         BaseRemine.__init__(self, issue)
-    4:         self.project = self._reference('project')
-    4:         self.tracker = self._reference('tracker')
-    4:         self.author = self._reference('author')
-    4:         self.status = self._reference('status')
-    4:         self.assigned_to = self._reference('assigned_to')
-    4:         self.priority = self._reference('priority')
-    4:         self.parent = self._reference('parent')
-    4:         self.subject = self._su('subject')
-    4:         self.description = self._su('description')
-    4:         self.estimated_hours = self._float('estimated_hours', -1)
-    4:         self.done_ratio = self._float('done_ratio', 0)
-    4:         self.start_date = self._date('start_date')
-    4:         self.due_date = self._date('due_date')
-    4:         self.created_on = self._date('created_on')
-    4:         self.updated_on = self._date('updated_on')
-    4:         self.fixed_version = self._su('fixed_version')
-    4:         self.journals = self._journals(issue)
+    7:         BaseRemine.__init__(self, issue)
+    7:         self.project = self._reference('project')
+    7:         self.tracker = self._reference('tracker')
+    7:         self.author = self._reference('author')
+    7:         self.status = self._reference('status')
+    7:         self.assigned_to = self._reference('assigned_to')
+    7:         self.priority = self._reference('priority')
+    7:         self.parent = self._reference('parent')
+    7:         self.subject = self._su('subject')
+    7:         self.description = self._su('description')
+    7:         self.estimated_hours = self._float('estimated_hours', -1)
+    7:         self.done_ratio = self._float('done_ratio', 0)
+    7:         self.start_date = self._date('start_date')
+    7:         self.due_date = self._date('due_date')
+    7:         self.created_on = self._date('created_on')
+    7:         self.updated_on = self._date('updated_on')
+    7:         self.fixed_version = self._su('fixed_version')
+    7:         self.journals = self._journals(issue)
        
     1:     def _journals(self, issue):
-    4:         journals = self._getattr('journals', [])
-    4:         journals = [Journal(x) for x in journals]
-    4:         return journals
+    7:         journals = self._getattr('journals', [])
+    7:         journals = [Journal(x) for x in journals]
+    7:         return journals
 </pre>
 
       <div class="footer">
-      Generated for revision Niewersjonowany katalog on 2014-03-19 23:58:19.289888Z
+      Generated for revision Niewersjonowany katalog on 2014-03-20 17:31:58.681320Z
       </div>
     </body>
     </html>

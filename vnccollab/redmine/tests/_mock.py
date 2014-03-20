@@ -20,7 +20,7 @@ res = [
     'journals': [], 
     'id': u'10560', 
     'done_ratio': 0.0, 
-    'subject': u'Some subject 2'},
+    'subject': u'Some subject 1'},
     {'status': None, 
     'priority': None, 
     'description': u'some description 2', 
@@ -50,15 +50,34 @@ usr = {'last_login_on': '2014-03-20T00:07:09+01:00',
        'custom_fields': []}
 
 
-class Fake:
+class Fake(object):
     def __init__(self, **entries): 
         self.__dict__.update(entries)
+        self._raw = entries
+
+    def to_dict(self):
+        return self._raw
+
+    def __getitem__(self, key):
+        return self._raw[key]
+
 
 @classmethod
 def find(cls, id_=None, from_=None, **kwargs):
     if cls._singular == 'user':
         return Fake(**usr)
-    return res
+
+    return [Fake(**r) for r in res]
+
+
+@classmethod
+def get(cls, id_=None, from_=None, **kwargs):
+    if cls._singular == 'user':
+        return Fake(**usr)
+
+    return Fake(**res[0])
+
 
 def initialize():
     ActiveResource.find = find
+    ActiveResource.get = get

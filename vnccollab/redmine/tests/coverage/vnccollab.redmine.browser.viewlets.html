@@ -12,10 +12,10 @@
       <body><h1>Test coverage for vnccollab.redmine.browser.viewlets</h1>
       <table>
     
-<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.browser.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;browser/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 25% (61 of 82 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.browser.viewlets.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewlets.py</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 25% (61 of 82 uncovered)</td></tr>
+<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (87 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (87 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.browser.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;browser/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 84% (13 of 82 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.browser.viewlets.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewlets.py</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 84% (13 of 82 uncovered)</td></tr>
 </table><hr/>
 <pre>    1: import logging
     1: from pyactiveresource.activeresource import ActiveResource
@@ -46,42 +46,90 @@
                # TODO: remove update and replace it by this.
                # But before that we need, to change searchIssues and add searchMyIssues
                # and update cloudstream
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         if IPloneSiteRoot in providedBy(self.context):</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             return</div>       
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         uuid = self.context.UID()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         field_key = self._get_field_key()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         url = util._get_server_url()</div>       
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         try:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             issues = util.searchIssues(**{field_key: uuid,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                           'status_id': 'o',</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                           'sort': 'updated_on:desc'})</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         except:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             logException(logger=logger, context=self.context,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                          msg=_(u"Error during fetching redmine tickets %s"</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                % url))</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             issues = []</div>       
+    1:         if IPloneSiteRoot in providedBy(self.context):
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             return</div>       
+    1:         uuid = self.context.UID()
+    1:         field_key = self._get_field_key()
+    1:         url = util._get_server_url()
+       
+    1:         try:
+    1:             issues = util.searchIssues(**{field_key: uuid,
+    1:                                           'status_id': 'o',
+    1:                                           'sort': 'updated_on:desc'})
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         except:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             logException(logger=logger, context=self.context,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                          msg=_(u"Error during fetching redmine tickets %s"</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                % url))</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             issues = []</div>       
                # TODO: convert to dic
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         self.tickets = [self._ticket_from_issue(x, url) for x in issues]</div>       
+    3:         self.tickets = [self._ticket_from_issue(x, url) for x in issues]
+       
     1:     def _ticket_from_issue(self, issue, url):
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         ticket = {</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             'id': issue.id,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             'title': issue.subject,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             'body': issue.description,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             'url': '%s/issues/%s' % (url, issue.id)</div>               }
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         return ticket</div>       
+    2:         ticket = {
+    2:             'id': issue.id,
+    2:             'title': issue.subject,
+    2:             'body': issue.description,
+    2:             'url': '%s/issues/%s' % (url, issue.id)
+               }
+    2:         return ticket
+       
     1:     def _get_field_key(self):
                '''Returns the name of the Remine key that is used to store plone
                UUIDs.'''
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         registry = getUtility(IRegistry)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         field_id = registry.get('vnccollab.redmine.plone_uid_field_id')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         field_key = 'cf_%d' % field_id</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         return field_key</div>       
-    1:     def update(self):
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         self.tickets = ()</div>       
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         if IPloneSiteRoot in providedBy(self.context):</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             return</div>       
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         tickets = []</div>               # check if settings are configured
-               # check user redmine credentials and redmine url/field id
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         registry = getUtility(IRegistry)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         url = registry.get('vnccollab.redmine.server_url')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         field_id = registry.get('vnccollab.redmine.plone_uid_field_id')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         username, password = self.getAuthCredentials()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         if username and password and url and field_id:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             Issue = type("Issue", (ActiveResource,), {'_site': url, '_user':</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                          username, '_password': password})</div>                   # do actual calls to redmine
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             try:</div>                       # fetch opened issues belonging to authenticated user
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 uuid = self.context.UID()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 data = Issue.find(**{'cf_%d' % field_id: uuid,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                      'status_id': 'o',</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                      'sort': 'updated_on:desc'})</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             except Exception:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 logException(logger=logger, context=self.context,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                              msg=_(u"Error during fetching redmine tickets %s"</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                    % url))</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 return</div>       
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             for item in data:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 info = item.to_dict()</div>       
-                       # skip invalid entries
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 if not info.get('id') or not info.get('subject'):</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                     continue</div>       
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 tickets.append({</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                     'id': info['id'],</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                     'title': safe_unicode(info['subject']),</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                     'body': safe_unicode(info.get('description', '')),</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                     'url': '%s/issues/%s' % (url, info['id'])</div>                       })
+    1:         registry = getUtility(IRegistry)
+    1:         field_id = registry.get('vnccollab.redmine.plone_uid_field_id')
+    1:         field_key = 'cf_%d' % field_id
+    1:         return field_key
        
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         self.tickets = tuple(tickets)</div>       
+    1:     def update(self):
+    1:         self.tickets = ()
+       
+    1:         if IPloneSiteRoot in providedBy(self.context):
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             return</div>       
+    1:         tickets = []
+               # check if settings are configured
+               # check user redmine credentials and redmine url/field id
+    1:         registry = getUtility(IRegistry)
+    1:         url = registry.get('vnccollab.redmine.server_url')
+    1:         field_id = registry.get('vnccollab.redmine.plone_uid_field_id')
+    1:         username, password = self.getAuthCredentials()
+    1:         if username and password and url and field_id:
+    1:             Issue = type("Issue", (ActiveResource,), {'_site': url, '_user':
+    1:                          username, '_password': password})
+                   # do actual calls to redmine
+    1:             try:
+                       # fetch opened issues belonging to authenticated user
+    1:                 uuid = self.context.UID()
+    1:                 data = Issue.find(**{'cf_%d' % field_id: uuid,
+    1:                                      'status_id': 'o',
+    1:                                      'sort': 'updated_on:desc'})
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             except Exception:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 logException(logger=logger, context=self.context,</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                              msg=_(u"Error during fetching redmine tickets %s"</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                                    % url))</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                 return</div>       
+    3:             for item in data:
+    2:                 info = item.to_dict()
+       
+                       # skip invalid entries
+    2:                 if not info.get('id') or not info.get('subject'):
+<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;                     continue</div>       
+    2:                 tickets.append({
+    2:                     'id': info['id'],
+    2:                     'title': safe_unicode(info['subject']),
+    2:                     'body': safe_unicode(info.get('description', '')),
+    2:                     'url': '%s/issues/%s' % (url, info['id'])
+                       })
+       
+    1:         self.tickets = tuple(tickets)
+       
     1:     @memoize
            def getAuthCredentials(self):
                """Returns username and password for redmine user."""
                # take username and password from authenticated user Zimbra creds
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         mtool = getToolByName(self.context, 'portal_membership')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         member = mtool.getAuthenticatedMember()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         username = member.getProperty('redmine_username') or ''</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         password = member.getProperty('redmine_password') or ''</div>               # password could contain non-ascii chars, ensure it's properly encoded
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         return username, safe_unicode(password).encode('utf-8')</div>       
+    1:         mtool = getToolByName(self.context, 'portal_membership')
+    1:         member = mtool.getAuthenticatedMember()
+    1:         username = member.getProperty('redmine_username') or ''
+    1:         password = member.getProperty('redmine_password') or ''
+               # password could contain non-ascii chars, ensure it's properly encoded
+    1:         return username, safe_unicode(password).encode('utf-8')
+       
 </pre>
 
       <div class="footer">
-      Generated for revision Niewersjonowany katalog on 2014-03-19 23:58:19.289888Z
+      Generated for revision Niewersjonowany katalog on 2014-03-20 17:31:58.681320Z
       </div>
     </body>
     </html>

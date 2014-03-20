@@ -12,9 +12,9 @@
       <body><h1>Test coverage for vnccollab.redmine.util</h1>
       <table>
     
-<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 70% (147 of 492 uncovered)</td></tr>
-<tr><td><a href="vnccollab.redmine.util.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;util.py</a></td> <td style="background: red">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 77% (15 of 67 uncovered)</td></tr>
+<tr><td><a href="vnccollab.html">vnccollab/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (87 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.html">&nbsp;&nbsp;&nbsp;&nbsp;redmine/</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 82% (87 of 492 uncovered)</td></tr>
+<tr><td><a href="vnccollab.redmine.util.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;util.py</a></td> <td style="background: orange">&nbsp;&nbsp;&nbsp;&nbsp;</td> <td>covered 89% (7 of 67 uncovered)</td></tr>
 </table><hr/>
 <pre>    1: import sys
        
@@ -36,27 +36,27 @@
        
     1:     @memoize
            def _get_server_url(self):
-    1:         url = api.portal.get_registry_record('vnccollab.redmine.server_url')
-    1:         return url
+    4:         url = api.portal.get_registry_record('vnccollab.redmine.server_url')
+    4:         return url
        
     1:     def _get_credentials(self):
-    4:         member = api.user.get_current()
-    4:         username = member.getProperty('redmine_username', '')
-    4:         password = member.getProperty('redmine_password', '')
+    7:         member = api.user.get_current()
+    7:         username = member.getProperty('redmine_username', '')
+    7:         password = member.getProperty('redmine_password', '')
                # password could contain non-ascii chars, ensure it's properly encoded
-    4:         return username, su(password).encode('utf-8')
+    7:         return username, su(password).encode('utf-8')
        
     1:     @memoize
            def _get_user_class(self, url, username, password):
-    1:         attrs = {'_site': url, '_user': username, '_password': password}
-    1:         UserClass = type("User", (ActiveResource,), attrs.copy())
-    1:         return UserClass
+    2:         attrs = {'_site': url, '_user': username, '_password': password}
+    2:         UserClass = type("User", (ActiveResource,), attrs.copy())
+    2:         return UserClass
 <div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         user = UserClass.find('current')</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         return user</div>       
     1:     def _get_my_user_class(self):
-    2:         url = self._get_server_url()
-    2:         username, password = self._get_credentials()
-    2:         UserClass = self._get_user_class(url, username, password)
-    2:         return UserClass
+    3:         url = self._get_server_url()
+    3:         username, password = self._get_credentials()
+    3:         UserClass = self._get_user_class(url, username, password)
+    3:         return UserClass
        
     1:     def _get_current_user(self):
     2:         UserClass = self._get_my_user_class()
@@ -64,14 +64,14 @@
        
     1:     @memoize
            def _get_issue_class(self, url, username, password):
-    1:         attrs = {'_site': url, '_user': username, '_password': password}
-    1:         IssueClass = type("Issue", (ActiveResource,), attrs.copy())
-    1:         return IssueClass
+    3:         attrs = {'_site': url, '_user': username, '_password': password}
+    3:         IssueClass = type("Issue", (ActiveResource,), attrs.copy())
+    3:         return IssueClass
        
     1:     def _get_my_issue_class(self):
-    2:         url = self._get_server_url()
-    2:         username, password = self._get_credentials()
-    2:         return self._get_issue_class(url, username, password)
+    4:         url = self._get_server_url()
+    4:         username, password = self._get_credentials()
+    4:         return self._get_issue_class(url, username, password)
        
     1:     def searchIssues(self, **query):
                '''Returns a list of issues that satisfy query.
@@ -96,10 +96,10 @@
                        journal_words:
                        search_words:
                '''
-    2:         IssueClass = self._get_my_issue_class()
-    2:         result = IssueClass.find(**query)
-    6:         result = [Issue(x) for x in result]
-    2:         return result
+    3:         IssueClass = self._get_my_issue_class()
+    3:         result = IssueClass.find(**query)
+    9:         result = [Issue(x) for x in result]
+    3:         return result
        
     1:     def searchMyIssues(self, **query):
                '''Returns a list of issues for the current user that satify the
@@ -123,11 +123,19 @@
                                changeset
                                watchers
                '''
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         IssueClass = self._get_my_issue_class()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         issue = IssueClass.get(id, **args)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         issue = Issue(issue)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         return issue</div>       
+    1:         IssueClass = self._get_my_issue_class()
+    1:         issue = IssueClass.get(id, **args)
+    1:         issue = Issue(issue)
+    1:         return issue
+       
     1:     @memoize
            def getUser(self, id):
                '''Returns a Redmine user.'''
-<div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         UserClass = self._get_my_user_class()</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         user = UserClass.get(id)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         user = User(UserClass.get(id))</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         return user</div>       
+    1:         UserClass = self._get_my_user_class()
+    1:         user = UserClass.get(id)
+    1:         user = User(UserClass.get(id))
+    1:         return user
+       
        
     1: redmineUtilInstance = RedmineUtil()
        
@@ -136,7 +144,7 @@
 <div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;     logger.exception(msg)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;     if context is not None:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         error_log = getattr(context, 'error_log', None)</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;         if error_log is not None:</div><div class="notcovered">&gt;&gt;&gt;&gt;&gt;&gt;             error_log.raising(sys.exc_info())</div></pre>
 
       <div class="footer">
-      Generated for revision Niewersjonowany katalog on 2014-03-19 23:58:19.289888Z
+      Generated for revision Niewersjonowany katalog on 2014-03-20 17:31:58.681320Z
       </div>
     </body>
     </html>
