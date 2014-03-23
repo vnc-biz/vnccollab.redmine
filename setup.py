@@ -6,8 +6,8 @@ version = open('version.txt').read()
 setup(name='vnccollab.redmine',
       version=version,
       description="VNC Collaboration Redmine AddOn.",
-      long_description=open("README.txt").read() + "\n" +
-          open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open(os.path.join("docs", "README.txt")).read() + "\n" +
+                       open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
           "Environment :: Web Environment",
           "Framework :: Plone",
