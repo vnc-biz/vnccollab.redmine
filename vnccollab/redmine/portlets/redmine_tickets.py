@@ -28,6 +28,11 @@ class IRedmineTicketsPortlet(IPortletDataProvider):
         required=True,
         default=u'Redmine Tickets')
 
+    url = schema.URI(
+        title=_(u"Redmine Server URL"),
+        description=_(u"URL of your Redmine server."),
+        required=True)
+
     count = schema.Int(
         title=_(u"Number of items to display"),
         description=_(u"How many items to list."),
@@ -36,7 +41,7 @@ class IRedmineTicketsPortlet(IPortletDataProvider):
 
     request_timeout = schema.Int(
         title=_(u"Request timeout"),
-        description=_(u"How many seconds to wait for hanging Redmine request."),
+        description=_(u"How many seconds to wait for hanging the request."),
         required=True,
         default=15)
 
@@ -45,6 +50,7 @@ class Assignment(base.Assignment):
     implements(IRedmineTicketsPortlet)
 
     header = u''
+    url = u'http://'
     count = 5
     request_timeout = 15
 
@@ -53,8 +59,10 @@ class Assignment(base.Assignment):
         """Return portlet header"""
         return self.header
 
-    def __init__(self, header=u'', count=5, request_timeout=15):
+    def __init__(self, header=u'', url=u'http://', count=5,
+                 request_timeout=15):
         self.header = header
+        self.url = url
         self.count = count
         self.request_timeout = request_timeout
 
@@ -71,7 +79,8 @@ class Renderer(deferred.DeferredRenderer):
     def getTickets(self):
         """Returns list of opened issues for authenticated user"""
         try:
-            tickets = util.searchMyIssues(status_id='o', sort='updated_on:desc')
+            tickets = util.searchMyIssues(status_id='o',
+                                          sort='updated_on:desc')
         except:
             logException(msg=_(u"Error during fetching redmine tickets %s" %
                                util._get_server_url),
@@ -80,11 +89,12 @@ class Renderer(deferred.DeferredRenderer):
 
         plone_view = getMultiAdapter((self.context, self.request),
                                      name=u'plone')
-        url = util._get_server_url()
+        url = self.data.url
 
         tickets = [x for x in tickets if x.id and x.subject]
         tickets = tickets[:self.data.count]
-        result = tuple([self._dct_from_issue(x, plone_view, url) for x in tickets])
+        result = tuple([self._dct_from_issue(x, plone_view, url)
+                        for x in tickets])
         return result
 
     def _dct_from_issue(self, issue, plone_view, url):
@@ -117,8 +127,8 @@ class Renderer(deferred.DeferredRenderer):
 class AddForm(base.AddForm):
     form_fields = form.Fields(IRedmineTicketsPortlet)
     label = _(u"Add Redmine Tickets Portlet")
-    description = _(u"Renders list of opened Redmine Tickets for authenticated "
-                    "user.")
+    description = _(u"Renders list of opened Redmine Tickets for "
+                    u"authenticated user.")
 
     def create(self, data):
         return Assignment(**data)
@@ -127,5 +137,5 @@ class AddForm(base.AddForm):
 class EditForm(base.EditForm):
     form_fields = form.Fields(IRedmineTicketsPortlet)
     label = _(u"Edit Redmine Tickets Portlet")
-    description = _(u"Renders list of opened Redmine Tickets for authenticated "
-                    "user.")
+    description = _(u"Renders list of opened Redmine Tickets for "
+                    u"authenticated user.")
