@@ -4,7 +4,7 @@
 1.0.5 - unreleased
 ------------------
 
-- Changes portlet configuration [10763].
+- Changes registry configuration [10763].
   [Jose Dinuncio]
 
 - Adds tests [10657]

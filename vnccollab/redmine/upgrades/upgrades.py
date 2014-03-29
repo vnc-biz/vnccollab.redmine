@@ -18,8 +18,3 @@ def upgrade_1000_1001(context):
 def upgrade_1000_1001_replace_portlets(context):
     '''Replace Theme portlets.'''
     replace_all_portlets()
-
-
-def upgrade_1001_1002(context):
-    '''Upgrade Portlets'''
-    replace_all_portlets('vnccollab.redmine.portlets.RedmineTicketsPortlet')
