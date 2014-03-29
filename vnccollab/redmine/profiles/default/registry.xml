@@ -4,7 +4,7 @@
     <field type="plone.registry.field.URI">
       <title>Redmine Sever Host URL</title>
     </field>
-    <value>https://</value>
+    <value>https://redmine.vnc.biz/redmine</value>
   </record>
   <record name="vnccollab.redmine.plone_uid_field_id">
     <field type="plone.registry.field.Int">
