@@ -5,21 +5,24 @@ from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import ILocalPortletAssignable
 from plone.portlets.interfaces import IPortletAssignmentMapping
 
+from vnccollab.redmine.util import RedmineUtil
 from vnccollab.redmine.portlets import redmine_tickets
 
 
 MANAGER_NAMES = ['plone.leftcolumn', 'plone.rightcolumn',
                  'plone.dashboard1', 'plone.dashboard2',
                  'plone.dashboard3', 'plone.dashboard4']
+REPLACED_NAME = 'vnccollab.theme.portlets.redmine_tickets.Assignment'
+util = RedmineUtil()
 
 
-def replace_all_portlets():
+def replace_all_portlets(replaced_name=REPLACED_NAME):
     '''Replace theme's portlets for redmine's.'''
-    replace_all_general_portlets()
-    replace_all_content_portlets()
+    replace_all_general_portlets(replaced_name)
+    replace_all_content_portlets(replaced_name)
 
 
-def replace_all_general_portlets():
+def replace_all_general_portlets(replaced_name=REPLACED_NAME):
     '''Replace portlets for the portal.'''
     portal = api.portal.get()
     managers = get_managers(portal)
@@ -28,35 +31,37 @@ def replace_all_general_portlets():
         for cat_name, category in manager.items():
             for map_name, mapping in category.items():
                 for portlet_name, portlet in mapping.items():
-                    new_portlet = new_redmine_ticket(portlet, portlet_name)
+                    new_portlet = new_redmine_ticket(portlet, portlet_name,
+                                                     replaced_name)
                     if new_portlet is not None:
                         mapping._data[portlet_name] = new_portlet
 
 
-
-def replace_all_content_portlets():
+def replace_all_content_portlets(replaced_name=REPLACED_NAME):
     '''Replace portlets in content objects.'''
     all_content = all_content_with_portlets()
     for content in all_content:
         managers = get_managers(content)
         for manager in managers:
-            mapping = getMultiAdapter((content, manager), IPortletAssignmentMapping)
+            mapping = getMultiAdapter((content, manager),
+                                      IPortletAssignmentMapping)
             for portlet_name, portlet in mapping.items():
-                new_portlet = new_redmine_ticket(portlet, portlet_name)
+                new_portlet = new_redmine_ticket(portlet, portlet_name,
+                                                 replaced_name)
                 if new_portlet is not None:
                     mapping._data[portlet_name] = new_portlet
 
 
-
-def new_redmine_ticket(portlet, portlet_name):
+def new_redmine_ticket(portlet, portlet_name, replaced_name):
     '''Given a theme's redmine ticket portlet and its name, returns a redmine's
     ticket portlet. In other case, it returns None.'''
     class_name = _class_name(portlet)
-    if class_name == 'vnccollab.theme.portlets.redmine_tickets.Assignment':
-        new_portlet = redmine_tickets.Assignment(portlet.header, portlet.count,
+    if class_name == replaced_name:
+        new_portlet = redmine_tickets.Assignment(portlet.header,
+                                                 util._get_server_url(),
+                                                 portlet.count,
                                                  portlet.request_timeout)
         new_portlet.__name__ = portlet_name
-        print '****** ------ ******', portlet_name, portlet, new_portlet
         return new_portlet
     else:
         return None
@@ -73,7 +78,7 @@ def all_content_with_portlets():
     catalog = api.portal.get_tool(name='portal_catalog')
 
     all_brains = catalog(show_inactive=True, language="ALL",
-                         object_provides=ILocalPortletAssignable.__identifier__)
+            object_provides=ILocalPortletAssignable.__identifier__)
     all_content = [brain.getObject() for brain in all_brains]
     all_content = list(all_content) + [portal]
     return all_content
@@ -82,7 +87,7 @@ def all_content_with_portlets():
 def get_managers(content):
     '''Returns the portlet managers.'''
     managers = [getUtility(IPortletManager, name=manager_name, context=content)
-                    for manager_name in MANAGER_NAMES]
+                for manager_name in MANAGER_NAMES]
     return managers
 
 
