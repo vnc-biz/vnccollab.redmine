@@ -33,13 +33,4 @@
         handler="vnccollab.redmine.upgrades.upgrades.upgrade_1000_1001_replace_portlets"
         />
 
-    <genericsetup:upgradeStep
-        source="1001"
-        destination="1002"
-        sortkey="4"
-        profile="vnccollab.redmine:default"
-        title="Upgrade portlets"
-        handler="vnccollab.redmine.upgrades.upgrades.upgrade_1001_1002"
-        />
-
 </configure>

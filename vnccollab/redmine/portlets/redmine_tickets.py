@@ -89,21 +89,13 @@ class Renderer(deferred.DeferredRenderer):
 
         plone_view = getMultiAdapter((self.context, self.request),
                                      name=u'plone')
-        url = self._get_server_url()
+        url = self.data.url
 
         tickets = [x for x in tickets if x.id and x.subject]
         tickets = tickets[:self.data.count]
         result = tuple([self._dct_from_issue(x, plone_view, url)
                         for x in tickets])
         return result
-
-    def _get_server_url(self):
-        url = getattr(self.data, 'url', Assignment.url)
-
-        if url == Assignment.url:
-            url = util._get_server_url()
-
-        return url
 
     def _dct_from_issue(self, issue, plone_view, url):
         '''Converts an issue in a dict.'''
