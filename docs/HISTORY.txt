@@ -4,6 +4,9 @@
 1.0.5 - unreleased
 ------------------
 
+- Changes registry configuration [10763].
+  [Jose Dinuncio]
+
 - Adds tests [10657]
   [Jose Dinuncio, Marcin Staniszczak]
 

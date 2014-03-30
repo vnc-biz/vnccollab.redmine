@@ -1,19 +1,14 @@
-import json
-import urllib
-import transaction
-
 from zope.component import getUtility, getMultiAdapter
 
 from Products.GenericSetup.utils import _getDottedName
 
-from plone.portlets.interfaces import IPortletManager
 from plone.app.portlets.storage import PortletAssignmentMapping
 
 from plone.portlets.interfaces import IPortletType
-from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignment
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.portlets.interfaces import IPortletRenderer
+from plone.portlets.interfaces import IPortletManager
 
 from vnccollab.redmine.tests.base import FunctionalTestCase
 from vnccollab.redmine.tests._mock import initialize as initialize_mock
@@ -48,7 +43,8 @@ class PortletTest(FunctionalTestCase):
     def test_InvokeAddview(self):
         portlet = getUtility(IPortletType,
             name='vnccollab.redmine.portlets.RedmineTicketsPortlet')
-        mapping = self.portal.restrictedTraverse('++contextportlets++plone.rightcolumn')
+        mapping = self.portal.restrictedTraverse(
+            '++contextportlets++plone.rightcolumn')
 
         for m in mapping.keys():
             del mapping[m]
@@ -58,7 +54,8 @@ class PortletTest(FunctionalTestCase):
         addview.createAndAdd(data={})
 
         self.assertEquals(len(mapping), 1)
-        self.failUnless(isinstance(mapping.values()[0], redmine_tickets.Assignment))
+        self.failUnless(isinstance(mapping.values()[0],
+                                   redmine_tickets.Assignment))
 
     def test_InvokeEditView(self):
         mapping = PortletAssignmentMapping()
@@ -73,10 +70,12 @@ class PortletTest(FunctionalTestCase):
         context = self.portal
         request = self.portal.REQUEST
         view = self.portal.restrictedTraverse('@@plone')
-        manager = getUtility(IPortletManager, name='plone.leftcolumn', context=self.portal)
+        manager = getUtility(IPortletManager, name='plone.leftcolumn',
+                             context=self.portal)
         assignment = redmine_tickets.Assignment()
 
-        renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
+        renderer = getMultiAdapter((context, request, view, manager,
+                                    assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, redmine_tickets.Renderer))
 
         renderer.refresh()
@@ -84,8 +83,11 @@ class PortletTest(FunctionalTestCase):
 
         self.assertTrue(len(tickets) == 2)
         for ticket in tickets:
-            self.assertTrue(ticket['body'] in (u'\t<p>some description 1</p>', u'\t<p>some description 2</p>'))
-            self.assertTrue(ticket['title'] in (u'Some subject 1', u'Some subject 2'))
+            self.assertTrue(ticket['body'] in
+                            (u'\t<p>some description 1</p>',
+                             u'\t<p>some description 2</p>'))
+            self.assertTrue(ticket['title'] in
+                            (u'Some subject 1', u'Some subject 2'))
 
-        self.assertEquals(renderer.getTicketsURL(), 'https://redmine.vnc.biz/redmine/issues')
+        self.assertEquals(renderer.getTicketsURL(), 'https:///issues')
         self.assertEqual(renderer.title, '')
