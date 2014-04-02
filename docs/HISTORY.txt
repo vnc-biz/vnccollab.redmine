@@ -1,5 +1,17 @@
-Changelog
+    Changelog
 =========
+
+1.0.5 - April 02, 2014
+----------------------
+
+- Changes registry configuration [10763].
+  [Jose Dinuncio]
+
+- Adds tests [10657]
+  [Jose Dinuncio, Marcin Staniszczak]
+
+- Cleans code for OS release [16010]
+  [Jose Dinuncio]
 
 1.0.4 - March 07, 2014
 ----------------------
@@ -19,10 +31,8 @@ Changelog
 - Fixes license and adds AUTHORS.txt.
   [Jose Dinuncio]
 
-
 - Update redmine url.
   [Vitaliy Podoba]
-
 
 1.0.1 - March 20, 2013
 ----------------------
