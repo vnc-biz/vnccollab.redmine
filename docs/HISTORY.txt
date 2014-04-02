@@ -1,8 +1,8 @@
     Changelog
 =========
 
-1.0.5 - unreleased
-------------------
+1.0.5 - April 02, 2014
+----------------------
 
 - Changes registry configuration [10763].
   [Jose Dinuncio]
