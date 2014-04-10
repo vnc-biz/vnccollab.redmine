@@ -1,5 +1,11 @@
-    Changelog
+Changelog
 =========
+
+1.0.6 - unreleased
+------------------
+
+- Improvement in dependencies [10960].
+  [Jose Dinuncio]
 
 1.0.5 - April 02, 2014
 ----------------------

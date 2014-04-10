@@ -26,9 +26,11 @@ setup(name='vnccollab.redmine',
       install_requires=[
           'setuptools',
           'textile',
-          'pyactiveresource',
+          'pyactiveresource==1.0.1',
           'five.grok',
           'plone.api',
+          'plone.app.jquery>=1.7.2',
+          'plone.app.jquerytools>=1.4',
           'collective.customizablePersonalizeForm',
           'vnccollab.common'
       ],
