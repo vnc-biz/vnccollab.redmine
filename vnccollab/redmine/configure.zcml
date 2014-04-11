@@ -6,6 +6,7 @@
     xmlns:grok="http://namespaces.zope.org/grok"
     i18n_domain="vnccollab.redmine">
 
+  <include package="Products.CMFCore" />
   <include package="collective.customizablePersonalizeForm" />
   <include package="five.grok" />
   <five:registerPackage package="." initialize=".initialize" />
