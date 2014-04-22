@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 import os
 
-version = open('version.txt').read()
+version = open('version.txt').readline().strip()
 
 setup(name='vnccollab.redmine',
       version=version,
       description="VNC Collaboration Redmine AddOn.",
-      long_description=open(os.path.join("docs", "README.txt")).read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
           "Environment :: Web Environment",
@@ -17,7 +17,7 @@ setup(name='vnccollab.redmine',
       keywords='redmine',
       author='Jose Dinuncio',
       author_email='jose.dinuncio@vnc.biz',
-      url='http://svn.plone.org/svn/collective/',
+      url='https://github.com/vnc-biz/vnccollab.redmine',
       license='gpl',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['vnccollab'],
