@@ -18,7 +18,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="vnccollab.redmine"
+      title="VNC Collaboration Redmine Integration"
       directory="profiles/default"
       description="Installs the vnccollab.redmine package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
